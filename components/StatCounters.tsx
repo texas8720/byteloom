@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useInView } from "framer-motion";
 
 interface StatItemProps {
   value: number;
@@ -27,7 +27,6 @@ function Counter({ value, suffix, decimals = 0, label }: StatItemProps) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
-      // Easing out function
       const easeOutQuad = (t: number) => t * (2 - t);
       const easedProgress = easeOutQuad(progress);
 
@@ -46,11 +45,11 @@ function Counter({ value, suffix, decimals = 0, label }: StatItemProps) {
 
   return (
     <div ref={ref} className="text-center">
-      <div className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-2">
+      <div className="font-mono text-3xl md:text-4xl font-bold text-white mb-2">
         {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}
-        {suffix}
+        <span className="text-[#D9A441]">{suffix}</span>
       </div>
-      <div className="text-xs md:text-sm font-medium tracking-wide text-[#8E8E93] uppercase">
+      <div className="font-mono text-[9px] tracking-widest uppercase text-[#8891A3]">
         {label}
       </div>
     </div>
@@ -66,7 +65,7 @@ export default function StatCounters() {
   ];
 
   return (
-    <div className="bg-[#0A0A0B] py-16 border-b border-[#1F1F23]/60">
+    <div className="bg-[#0B0E14] py-16 border-b border-[rgba(237,238,242,0.08)]">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map((stat, idx) => (
           <Counter

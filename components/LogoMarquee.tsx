@@ -14,18 +14,16 @@ export default function LogoMarquee() {
     { name: "Vercel-like", symbol: "▲" },
   ];
 
-  // Duplicate the array to create a seamless infinite loop
   const displayLogos = [...logos, ...logos, ...logos];
 
   return (
-    <div className="w-full overflow-hidden bg-[#0A0A0B] py-10 border-y border-[#1F1F23]/60 relative">
-      {/* Gradients to fade edges */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0A0A0B] to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0A0A0B] to-transparent z-10 pointer-events-none" />
+    <div className="w-full overflow-hidden bg-[#0B0E14] py-10 border-y border-[rgba(237,238,242,0.08)] relative z-10">
+      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0B0E14] to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0B0E14] to-transparent z-10 pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 mb-6">
-        <p className="text-center text-xs font-semibold tracking-widest uppercase text-[#8E8E93]">
-          Powering products for ambitious teams
+        <p className="text-center font-mono text-[9px] tracking-widest uppercase text-[#8891A3]">
+          POWERING PRODUCTS FOR AMBITIOUS TEAMS
         </p>
       </div>
 
@@ -34,10 +32,10 @@ export default function LogoMarquee() {
           {displayLogos.map((logo, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-2 text-xl font-bold text-[#8E8E93]/40 hover:text-white transition-colors duration-300 cursor-default"
+              className="flex items-center gap-2 text-lg font-mono font-bold text-[#8891A3]/30 hover:text-white transition-colors duration-300 cursor-default"
             >
-              <span className="text-accent text-2xl">{logo.symbol}</span>
-              <span className="tracking-tight">{logo.name}</span>
+              <span className="text-[#D9A441] text-xl">{logo.symbol}</span>
+              <span className="tracking-tight uppercase">{logo.name}</span>
             </div>
           ))}
         </div>
