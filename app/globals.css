@@ -79,3 +79,46 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Custom UI/UX Pro Max Utilities */
+
+@utility bg-grid-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@utility bg-mesh-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, rgba(14, 165, 233, 0.08) 40%, transparent 70%);
+}
+
+@utility text-gradient {
+  background: linear-gradient(to right, #6366F1, #38BDF8, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@utility animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@utility glass-card {
+  background: rgba(18, 18, 20, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@utility glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.08);
+  transform: translateY(-2px);
+}
