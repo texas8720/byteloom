@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0A0A0B;
+  --color-foreground: #F5F5F7;
+  --color-accent: #6C5CE7;
+  --color-accent-hover: #5B4DE3;
+  --color-accent-glow: rgba(108, 92, 231, 0.15);
+  --color-card: #121214;
+  --color-card-hover: #161619;
+  --color-card-border: #1F1F23;
+  --color-card-border-hover: #2E2E35;
+  --color-muted: #8E8E93;
+}
+
+:root {
+  --background: #0A0A0B;
+  --foreground: #F5F5F7;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: #0A0A0B;
+  color: #F5F5F7;
+  scroll-behavior: smooth;
+}
+
+/* Custom utility for glassmorphism */
+.glass {
+  background: rgba(10, 10, 11, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1F1F23;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6C5CE7;
+}
+
+/* Keyframe animations for marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
