@@ -31,23 +31,23 @@ function BentoCard({ icon, title, description, href, className = "", delay }: Be
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.4, delay }}
       whileHover={{ y: -3 }}
-      className={`group relative overflow-hidden bg-[#0B0E14] border border-[rgba(0,240,255,0.08)] rounded-md p-8 flex flex-col justify-between hover:bg-[#12161F] hover:border-[#00f0ff]/30 hover:shadow-[0_0_20px_rgba(0,240,255,0.06)] transition-all duration-200 ${className}`}
+      className={`group relative overflow-hidden bg-card border border-card-border rounded-md p-8 flex flex-col justify-between hover:bg-card hover:border-card-border-hover transition-all duration-200 ${className}`}
     >
       <div>
-        <div className="w-10 h-10 rounded-md bg-[#06080E] border border-[rgba(0,240,255,0.08)] flex items-center justify-center text-[#00f0ff] group-hover:scale-105 transition-transform duration-200 mb-6 shadow-[0_0_8px_rgba(0,240,255,0.1)]">
+        <div className="w-10 h-10 rounded-md bg-background border border-card-border flex items-center justify-center text-accent group-hover:scale-105 transition-transform duration-200 mb-6">
           {icon}
         </div>
-        <h3 className="text-lg font-display font-semibold text-white mb-2">
+        <h3 className="text-xl font-display font-medium text-foreground mb-3">
           {title}
         </h3>
-        <p className="text-[#8891A3] text-xs sm:text-sm leading-relaxed mb-6">
+        <p className="text-muted text-xs sm:text-sm leading-relaxed mb-6">
           {description}
         </p>
       </div>
 
       <Link
         href={href}
-        className="font-mono uppercase tracking-wider text-[9px] text-[#8891A3] group-hover:text-[#00f0ff] transition-colors flex items-center gap-1"
+        className="font-mono uppercase tracking-wider text-[9px] text-muted group-hover:text-accent transition-colors flex items-center gap-1"
       >
         Learn More <span className="group-hover:translate-x-0.5 transition-transform duration-150">→</span>
       </Link>

@@ -9,7 +9,6 @@ import {
   Clock,
   Users2,
   TrendingDown,
-  Cpu,
   Check,
   Sparkles,
   Zap,
@@ -88,7 +87,6 @@ export default function Home() {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       
-      // Calculate trail relative to document scroll position
       const docX = e.clientX + window.scrollX;
       const docY = e.clientY + window.scrollY;
       
@@ -131,7 +129,7 @@ export default function Home() {
 
   return (
     <div ref={containerRef} className="relative bg-background text-foreground w-full overflow-hidden">
-      {/* Desktop Custom Cursor follower */}
+      {/* Custom Cursor follower */}
       {isDesktop && !prefersReducedMotion && (
         <div 
           className={`cursor-dot ${isHoveringInteractive ? "cursor-dot-active" : ""}`}
@@ -139,9 +137,9 @@ export default function Home() {
         />
       )}
 
-      {/* Cursor vector thread trail */}
+      {/* Vector thread trail */}
       {isDesktop && !prefersReducedMotion && trail.length > 1 && (
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-40 overflow-visible">
+        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-40 overflow-visible animate-fade-in">
           <path
             d={getTrailPath()}
             fill="none"
@@ -169,7 +167,7 @@ export default function Home() {
       {/* Hero Section */}
       <section 
         ref={heroRef}
-        className="relative min-h-screen pt-44 pb-32 flex flex-col justify-center items-center z-10"
+        className="relative min-h-screen pt-48 pb-32 flex flex-col justify-center items-center z-10"
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 flex flex-col items-center text-center">
           {/* Eyebrow */}
@@ -187,7 +185,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-semibold tracking-tight leading-[1.05] text-foreground max-w-5xl mb-8"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium tracking-tight leading-[1.05] text-foreground max-w-5xl mb-8"
           >
             We weave design, code, &amp; SEO into <span className="italic text-accent">one system.</span>
           </motion.h1>
@@ -237,7 +235,7 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-3 block">
               THE FRAGMENTED SYSTEM
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-semibold tracking-tight text-foreground mb-6">
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground mb-6">
               Most agencies compartmentalize. We unify.
             </h2>
             <p className="text-muted text-xs sm:text-sm leading-relaxed">
@@ -246,31 +244,31 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-card border border-card-border p-8 rounded-md hover:border-card-border-hover hover:bg-card transition-all duration-200 group">
+            <div className="bg-card border border-card-border p-8 rounded-md hover:border-card-border-hover transition-all duration-200 group">
               <div className="w-10 h-10 rounded-md bg-background border border-card-border flex items-center justify-center text-accent mb-6">
                 <Clock className="w-5 h-5" strokeWidth={1.5} />
               </div>
-              <h4 className="text-base font-display font-semibold text-foreground mb-3">Slow, disconnected timelines</h4>
+              <h4 className="text-lg font-display font-semibold text-foreground mb-3">Slow, disconnected timelines</h4>
               <p className="text-xs text-muted leading-relaxed">
                 Traditional agencies isolate production blocks, dragging out project launches by months while overhead accrues.
               </p>
             </div>
             
-            <div className="bg-card border border-card-border p-8 rounded-md hover:border-card-border-hover hover:bg-card transition-all duration-200 group">
+            <div className="bg-card border border-card-border p-8 rounded-md hover:border-card-border-hover transition-all duration-200 group">
               <div className="w-10 h-10 rounded-md bg-background border border-card-border flex items-center justify-center text-accent mb-6">
                 <Users2 className="w-5 h-5" strokeWidth={1.5} />
               </div>
-              <h4 className="text-base font-display font-semibold text-foreground mb-3">Isolated Freelancers</h4>
+              <h4 className="text-lg font-display font-semibold text-foreground mb-3">Isolated Freelancers</h4>
               <p className="text-xs text-muted leading-relaxed">
                 Contractors code without consulting design or SEO experts, leading to slow rendering metrics and broken interfaces.
               </p>
             </div>
 
-            <div className="bg-card border border-card-border p-8 rounded-md hover:border-card-border-hover hover:bg-card transition-all duration-200 group">
+            <div className="bg-card border border-card-border p-8 rounded-md hover:border-card-border-hover transition-all duration-200 group">
               <div className="w-10 h-10 rounded-md bg-background border border-card-border flex items-center justify-center text-accent mb-6">
                 <TrendingDown className="w-5 h-5" strokeWidth={1.5} />
               </div>
-              <h4 className="text-base font-display font-semibold text-foreground mb-3">Low-Performing Products</h4>
+              <h4 className="text-lg font-display font-semibold text-foreground mb-3">Low-Performing Products</h4>
               <p className="text-xs text-muted leading-relaxed">
                 A design agency designs a pretty layout, but misses index structures, keyword tags, and core vitals entirely.
               </p>
@@ -289,7 +287,7 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-3 block">
               OUR DEPLOYMENT ENGINE
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-semibold tracking-tight text-foreground mb-6">
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground mb-6">
               Complete architectural services, structured in harmony.
             </h2>
             <p className="text-muted text-xs sm:text-sm leading-relaxed">
@@ -306,9 +304,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent block">
-              INTERACTIVE LOOM CONSTELATION
+              INTERACTIVE LOOM CONSTELLATION
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-semibold tracking-tight text-foreground">
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground">
               Weave your bespoke system setup
             </h2>
             <p className="text-muted text-xs sm:text-sm leading-relaxed">
@@ -329,7 +327,7 @@ export default function Home() {
           <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-3 block">
             THE METHODOLOGY
           </span>
-          <h2 className="text-3xl md:text-5xl font-display font-semibold tracking-tight text-foreground mb-20">
+          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground mb-20">
             Our Woven Process
           </h2>
 
@@ -377,7 +375,7 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent block">
               CLIENT TESTIMONIALS
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-semibold tracking-tight text-foreground">
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground">
               System reviews from real founders
             </h2>
           </div>
@@ -393,7 +391,7 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent block">
               COMMON INQUIRIES
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-semibold tracking-tight text-foreground">
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground">
               Technical FAQ
             </h2>
           </div>
@@ -408,7 +406,7 @@ export default function Home() {
         className="py-36 relative z-10 bg-background border-t border-card-border"
       >
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-6xl font-display font-semibold tracking-tight text-foreground mb-6">
+          <h2 className="text-4xl md:text-6xl font-display font-medium tracking-tight text-foreground mb-6">
             Let&apos;s weave a high-performance system together.
           </h2>
           <p className="text-muted text-sm leading-relaxed max-w-xl mx-auto mb-12">

@@ -45,11 +45,11 @@ function Counter({ value, suffix, decimals = 0, label }: StatItemProps) {
 
   return (
     <div ref={ref} className="text-center">
-      <div className="font-mono text-3xl md:text-4xl font-bold text-white mb-2">
+      <div className="font-technical text-3xl md:text-4xl font-bold text-foreground mb-2">
         {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}
-        <span className="text-[#00f0ff]">{suffix}</span>
+        <span className="text-accent">{suffix}</span>
       </div>
-      <div className="font-mono text-[9px] tracking-widest uppercase text-[#8891A3]">
+      <div className="font-mono text-[9px] tracking-widest uppercase text-muted">
         {label}
       </div>
     </div>
@@ -65,7 +65,7 @@ export default function StatCounters() {
   ];
 
   return (
-    <div className="bg-[#0B0E14] py-16 border-b border-[rgba(237,238,242,0.08)]">
+    <div className="bg-background py-16 border-b border-card-border">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map((stat, idx) => (
           <Counter

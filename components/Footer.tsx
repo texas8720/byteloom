@@ -38,34 +38,34 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0B0E14] border-t border-[rgba(237,238,242,0.08)] pt-20 pb-10 relative z-10">
+    <footer className="bg-background border-t border-card-border pt-20 pb-10 relative z-10">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
         
         {/* Column 1 - Brand */}
         <div className="flex flex-col gap-6">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-md bg-[#12161F] border border-[rgba(0,240,255,0.15)] flex items-center justify-center text-[#00f0ff] shadow-[0_0_10px_rgba(0,240,255,0.15)]">
+            <div className="w-8 h-8 rounded-md bg-card border border-card-border flex items-center justify-center text-accent">
               <Layers className="w-4 h-4" />
             </div>
-            <span className="font-semibold text-lg tracking-tight font-display text-white">Byteloom</span>
+            <span className="font-semibold text-lg tracking-tight font-display text-foreground">Byteloom</span>
           </Link>
-          <p className="text-xs text-[#8891A3] leading-relaxed max-w-xs">
+          <p className="text-xs text-muted leading-relaxed max-w-xs">
             We weave design, code, SEO, and automation into one high-performance system. Structured for velocity.
           </p>
-          <div className="flex items-center gap-4 text-[#8891A3]">
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors duration-200" aria-label="LinkedIn">
+          <div className="flex items-center gap-4 text-muted">
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors duration-200" aria-label="LinkedIn">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                 <rect x="2" y="9" width="4" height="12" />
                 <circle cx="4" cy="4" r="2" />
               </svg>
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors duration-200" aria-label="Twitter">
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors duration-200" aria-label="Twitter">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
               </svg>
             </a>
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors duration-200" aria-label="GitHub">
+            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors duration-200" aria-label="GitHub">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
               </svg>
@@ -75,11 +75,11 @@ export default function Footer() {
 
         {/* Column 2 - Services */}
         <div>
-          <h3 className="font-mono text-[10px] uppercase tracking-wider text-white font-semibold mb-6">Services</h3>
+          <h3 className="font-mono text-[10px] uppercase tracking-wider text-foreground font-semibold mb-6">Services</h3>
           <ul className="flex flex-col gap-3">
             {services.map((item) => (
               <li key={item.name}>
-                <Link href={item.href} className="text-xs text-[#8891A3] hover:text-[#00f0ff] transition-colors duration-200">
+                <Link href={item.href} className="text-xs text-muted hover:text-accent transition-colors duration-200">
                   {item.name}
                 </Link>
               </li>
@@ -89,11 +89,11 @@ export default function Footer() {
 
         {/* Column 3 - Company */}
         <div>
-          <h3 className="font-mono text-[10px] uppercase tracking-wider text-white font-semibold mb-6">Company</h3>
+          <h3 className="font-mono text-[10px] uppercase tracking-wider text-foreground font-semibold mb-6">Company</h3>
           <ul className="flex flex-col gap-3">
             {company.map((item) => (
               <li key={item.name}>
-                <Link href={item.href} className="text-xs text-[#8891A3] hover:text-[#00f0ff] transition-colors duration-200">
+                <Link href={item.href} className="text-xs text-muted hover:text-accent transition-colors duration-200">
                   {item.name}
                 </Link>
               </li>
@@ -104,20 +104,20 @@ export default function Footer() {
         {/* Column 4 - Get Started */}
         <div className="flex flex-col gap-6">
           <div>
-            <h3 className="font-mono text-[10px] uppercase tracking-wider text-white font-semibold mb-4">Get Started</h3>
-            <p className="text-xs text-[#8891A3] mb-1 font-mono">EMAIL: hello@byteloom.com</p>
-            <p className="text-xs text-[#8891A3] font-mono">PHONE: +91 XX XXX XXXXX</p>
+            <h3 className="font-mono text-[10px] uppercase tracking-wider text-foreground font-semibold mb-4">Get Started</h3>
+            <p className="text-xs text-muted mb-1 font-mono">EMAIL: hello@byteloom.com</p>
+            <p className="text-xs text-muted font-mono">PHONE: +91 XX XXX XXXXX</p>
           </div>
           
           <Link
             href="/contact?type=strategy"
-            className="px-4 py-2 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-[#06080E] bg-[#00f0ff] hover:bg-[#00d8e6] transition-colors border border-[#00f0ff] w-fit shadow-[0_0_10px_rgba(0,240,255,0.15)]"
+            className="px-4 py-2 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent w-fit"
           >
             Book a Call
           </Link>
 
           <div>
-            <h4 className="font-mono text-[9px] uppercase tracking-wider text-white font-semibold mb-3">Newsletter</h4>
+            <h4 className="font-mono text-[9px] uppercase tracking-wider text-foreground font-semibold mb-3">Newsletter</h4>
             <form onSubmit={handleSubscribe} className="flex gap-2 max-w-sm">
               <input
                 type="email"
@@ -125,33 +125,33 @@ export default function Footer() {
                 placeholder="you@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-[#12161F] text-white border border-[rgba(237,238,242,0.08)] rounded-md px-3 py-1.5 text-xs w-full focus:outline-none focus:border-[#00f0ff] transition-colors duration-200 font-mono"
+                className="bg-card text-foreground border border-card-border rounded-md px-3 py-1.5 text-xs w-full focus:outline-none focus:border-accent transition-colors duration-200 font-mono animate-none"
               />
               <button
                 type="submit"
-                className="bg-[#00f0ff] hover:bg-[#00d8e6] text-[#06080E] rounded-md px-3 flex items-center justify-center transition-colors cursor-pointer shadow-[0_0_10px_rgba(0,240,255,0.15)]"
+                className="bg-accent hover:bg-accent-hover text-background rounded-md px-3 flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Subscribe"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </form>
             {subscribed && (
-              <p className="text-[10px] text-[#3ED9C4] font-mono uppercase mt-2">Subscribed successfully.</p>
+              <p className="text-[10px] text-accent font-mono uppercase mt-2">Subscribed successfully.</p>
             )}
           </div>
         </div>
 
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 border-t border-[rgba(237,238,242,0.08)] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-[10px] font-mono text-[#8891A3] uppercase">
+      <div className="max-w-7xl mx-auto px-6 border-t border-card-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p className="text-[10px] font-mono text-muted uppercase">
           &copy; {new Date().getFullYear()} Byteloom Digital. All rights reserved.
         </p>
         <div className="flex gap-6 text-[10px] font-mono uppercase">
-          <Link href="/privacy" className="text-[#8891A3] hover:text-[#00f0ff] transition-colors duration-200">
+          <Link href="/privacy" className="text-muted hover:text-accent transition-colors duration-200">
             Privacy Policy
           </Link>
-          <Link href="/terms" className="text-[#8891A3] hover:text-[#00f0ff] transition-colors duration-200">
+          <Link href="/terms" className="text-muted hover:text-accent transition-colors duration-200">
             Terms of Service
           </Link>
         </div>

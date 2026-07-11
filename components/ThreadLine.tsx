@@ -22,7 +22,6 @@ export default function ThreadLine({
   const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
   React.useEffect(() => {
-    // Respect prefers-reduced-motion
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
     const listener = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
@@ -46,7 +45,6 @@ export default function ThreadLine({
       const processRect = process.getBoundingClientRect();
       const footerRect = footer.getBoundingClientRect();
 
-      // Relative offsets
       const heroTop = heroRect.top - containerRect.top;
       const servicesTop = servicesRect.top - containerRect.top;
       const processTop = processRect.top - containerRect.top;
@@ -54,43 +52,33 @@ export default function ThreadLine({
 
       const width = containerRect.width;
 
-      // 1. Under Hero title (centered)
       const p1_x = width / 2;
       const p1_y = heroTop + (heroRect.height * 0.45);
 
-      // 2. Bottom of Hero
       const p2_x = width / 2;
       const p2_y = heroTop + heroRect.height - 60;
 
-      // 3. Weave left side of Services
       const p3_x = width * 0.12;
       const p3_y = servicesTop + 120;
 
-      // 4. Weave right side of Services
       const p4_x = width * 0.88;
       const p4_y = servicesTop + (servicesRect.height * 0.35);
 
-      // 5. Weave left side of Services lower
       const p5_x = width * 0.12;
       const p5_y = servicesTop + (servicesRect.height * 0.65);
 
-      // 6. Connect to bottom of Services
       const p6_x = width * 0.5;
       const p6_y = servicesTop + servicesRect.height - 100;
 
-      // 7. Top of Process section
       const p7_x = width * 0.5;
       const p7_y = processTop + 100;
 
-      // 8. Middle of Process section
       const p8_x = width * 0.5;
       const p8_y = processTop + (processRect.height * 0.55);
 
-      // 9. Connecting to Footer
       const p9_x = width * 0.5;
       const p9_y = footerTop + 60;
 
-      // Woven "B" mark path logic
       const bSize = 14;
       const bx = p9_x - 7;
       const by = p9_y;
@@ -108,7 +96,6 @@ export default function ThreadLine({
         h -${bSize * 0.7}
       `;
 
-      // Build organic Bezier curvatures
       const pathString = `
         M ${p1_x} ${p1_y}
         L ${p2_x} ${p2_y}
@@ -146,7 +133,6 @@ export default function ThreadLine({
     restDelta: 0.001
   });
 
-  // Animate drawing: if prefersReducedMotion is active, always show the full path immediately
   const pathLength = useTransform(smoothProgress, [0, 1], prefersReducedMotion ? [1, 1] : [0, 1]);
 
   if (!path) return null;
@@ -160,32 +146,35 @@ export default function ThreadLine({
       <path
         d={path}
         fill="none"
-        stroke="#0B0E14"
-        strokeWidth="3"
+        stroke="var(--background)"
+        strokeWidth="3.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         opacity="0.9"
+        className="transition-colors duration-200"
       />
-      {/* Glowing background cyber trace path */}
+      {/* Glowing background accent path */}
       <motion.path
         d={path}
         fill="none"
-        stroke="#00f0ff"
-        strokeWidth="4.5"
+        stroke="var(--accent)"
+        strokeWidth="4"
         strokeLinecap="round"
         strokeLinejoin="round"
-        opacity="0.25"
+        opacity="0.15"
         style={{ pathLength }}
+        className="transition-colors duration-200"
       />
-      {/* Active cyber cyan thread path */}
+      {/* Active gold thread path */}
       <motion.path
         d={path}
         fill="none"
-        stroke="#00f0ff"
-        strokeWidth="1.5"
+        stroke="var(--accent)"
+        strokeWidth="1.2"
         strokeLinecap="round"
         strokeLinejoin="round"
         style={{ pathLength }}
+        className="transition-colors duration-200"
       />
     </svg>
   );

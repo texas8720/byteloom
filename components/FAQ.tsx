@@ -13,15 +13,15 @@ interface FAQItemProps {
 
 function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
   return (
-    <div className="border-b border-[rgba(237,238,242,0.08)] py-6 last:border-b-0">
+    <div className="border-b border-card-border py-6 last:border-b-0">
       <button
         onClick={onToggle}
         className="w-full flex items-center justify-between text-left focus:outline-none group cursor-pointer"
       >
-        <span className="font-mono text-xs uppercase tracking-wider text-white group-hover:text-[#00f0ff] transition-colors duration-200">
+        <span className="font-sans text-sm md:text-base font-medium text-foreground group-hover:text-accent transition-colors duration-200">
           {question}
         </span>
-        <span className="ml-4 text-[#00f0ff] flex items-center justify-center transition-transform duration-200">
+        <span className="ml-4 text-accent flex items-center justify-center transition-transform duration-200">
           {isOpen ? <Minus className="w-4 h-4" strokeWidth={1.5} /> : <Plus className="w-4 h-4" strokeWidth={1.5} />}
         </span>
       </button>
@@ -32,10 +32,10 @@ function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="text-xs sm:text-sm text-[#8891A3] leading-relaxed pt-4 max-w-3xl">
+            <p className="text-xs sm:text-sm text-muted leading-relaxed pt-4 max-w-3xl">
               {answer}
             </p>
           </motion.div>
@@ -80,7 +80,7 @@ export default function FAQ() {
   };
 
   return (
-    <div className="bg-[#12161F] border border-[rgba(237,238,242,0.08)] rounded-md p-6 md:p-10 max-w-3xl mx-auto">
+    <div className="bg-card border border-card-border rounded-md p-6 md:p-10 max-w-3xl mx-auto">
       {faqs.map((faq, idx) => (
         <FAQItem
           key={idx}
