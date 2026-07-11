@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import LoaderProvider from "@/components/Loader";
 
 export const metadata: Metadata = {
   title: "Byteloom Digital | We build the systems behind fast-growing companies.",
@@ -16,8 +18,13 @@ export default function RootLayout({
       lang="en"
       className="h-full antialiased"
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SmoothScrollProvider>
+          <LoaderProvider>
+            {children}
+          </LoaderProvider>
+        </SmoothScrollProvider>
+      </body>
     </html>
   );
 }
-

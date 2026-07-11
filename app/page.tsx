@@ -1,225 +1,145 @@
 "use client";
 
 import * as React from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import {
-  ArrowRight,
-  ChevronRight,
-  Clock,
-  Users2,
-  TrendingDown,
-  Check,
-  Sparkles,
-  Zap,
-  Compass,
-  Puzzle,
-  Smartphone,
-  PlusCircle
-} from "lucide-react";
+import { ArrowRight, Clock, Users2, TrendingDown } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BentoGrid from "@/components/BentoGrid";
-import LogoMarquee from "@/components/LogoMarquee";
 import StatCounters from "@/components/StatCounters";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
-import ThreadLine from "@/components/ThreadLine";
-import WeaveBoard from "@/components/WeaveBoard";
-
-const KnotIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    width="18"
-    height="18"
-    fill="none"
-    stroke="var(--accent)"
-    strokeWidth="2"
-    className="flex-shrink-0"
-  >
-    <circle cx="12" cy="12" r="5" stroke="var(--accent)" strokeWidth="1.5" />
-    <circle cx="12" cy="12" r="2" fill="var(--accent)" />
-    <path d="M7 12h-3M17 12h3" strokeLinecap="round" />
-  </svg>
-);
-
-const QuoteIcon = () => (
-  <span className="font-display text-8xl text-accent/10 absolute -top-4 -left-4 select-none italic pointer-events-none">
-    “
-  </span>
-);
+import WeaveBoard3D from "@/components/WeaveBoard3D";
+import LoomScene from "@/components/LoomScene";
 
 export default function Home() {
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const heroTextRef = React.useRef<HTMLHeadingElement>(null);
+  
   const heroRef = React.useRef<HTMLElement>(null);
   const servicesRef = React.useRef<HTMLElement>(null);
   const processRef = React.useRef<HTMLElement>(null);
   const footerRef = React.useRef<HTMLDivElement>(null);
 
-  // Mouse position and trail
-  const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
-  const [trail, setTrail] = React.useState<{ x: number; y: number }[]>([]);
-  const [isHoveringInteractive, setIsHoveringInteractive] = React.useState(false);
-  const [isDesktop, setIsDesktop] = React.useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
+  const processTriggerRef = React.useRef<HTMLDivElement>(null);
+  const ctaBtnRef = React.useRef<HTMLAnchorElement>(null);
 
   React.useEffect(() => {
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(motionQuery.matches);
-    const motionListener = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    motionQuery.addEventListener("change", motionListener);
+    gsap.registerPlugin(ScrollTrigger);
 
-    const desktopQuery = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(desktopQuery.matches);
-    const desktopListener = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    desktopQuery.addEventListener("change", desktopListener);
+    // Headline character reveal using GSAP
+    if (heroTextRef.current) {
+      const chars = heroTextRef.current.innerText.split("");
+      heroTextRef.current.innerHTML = chars
+        .map((c) => `<span class="hero-char inline-block opacity-0 translate-y-4">${c === " " ? "&nbsp;" : c}</span>`)
+        .join("");
 
-    return () => {
-      motionQuery.removeEventListener("change", motionListener);
-      desktopQuery.removeEventListener("change", desktopListener);
-    };
-  }, []);
-
-  React.useEffect(() => {
-    if (!isDesktop || prefersReducedMotion) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      const docX = e.clientX + window.scrollX;
-      const docY = e.clientY + window.scrollY;
-      
-      setTrail(prev => {
-        const nextTrail = [...prev, { x: docX, y: docY }];
-        if (nextTrail.length > 25) {
-          return nextTrail.slice(nextTrail.length - 25);
-        }
-        return nextTrail;
+      gsap.to(".hero-char", {
+        opacity: 1,
+        y: 0,
+        stagger: 0.02,
+        duration: 0.65,
+        ease: "power3.out",
+        delay: 0.1,
       });
-    };
+    }
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const isInteractive = 
-        target.tagName === "A" || 
-        target.tagName === "BUTTON" || 
-        target.closest("a") || 
-        target.closest("button") ||
-        target.getAttribute("role") === "button";
-      setIsHoveringInteractive(!!isInteractive);
-    };
+    // Process horizontal-scroll scrollytelling pinning timeline
+    const section = processRef.current;
+    const trigger = processTriggerRef.current;
+    if (section && trigger) {
+      const scrollWidth = trigger.scrollWidth;
+      const windowWidth = window.innerWidth;
+      
+      gsap.to(trigger, {
+        x: () => -(scrollWidth - windowWidth),
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          pin: true,
+          scrub: 1.2,
+          start: "top top",
+          end: () => `+=${scrollWidth - windowWidth}`,
+          invalidateOnRefresh: true,
+        },
+      });
+    }
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseover", handleMouseOver);
+    // Magnetic CTA Button at the bottom
+    const ctaBtn = ctaBtnRef.current;
+    if (ctaBtn) {
+      const xTo = gsap.quickTo(ctaBtn, "x", { duration: 0.35, ease: "power3.out" });
+      const yTo = gsap.quickTo(ctaBtn, "y", { duration: 0.35, ease: "power3.out" });
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseover", handleMouseOver);
-    };
-  }, [isDesktop, prefersReducedMotion]);
+      const onMouseMove = (e: MouseEvent) => {
+        const { left, top, width, height } = ctaBtn.getBoundingClientRect();
+        const x = e.clientX - (left + width / 2);
+        const y = e.clientY - (top + height / 2);
+        xTo(x * 0.4);
+        yTo(y * 0.4);
+      };
 
-  const getTrailPath = () => {
-    if (trail.length < 2) return "";
-    return trail.reduce((acc, point, idx) => {
-      if (idx === 0) return `M ${point.x} ${point.y}`;
-      return `${acc} L ${point.x} ${point.y}`;
-    }, "");
-  };
+      const onMouseLeave = () => {
+        xTo(0);
+        yTo(0);
+      };
+
+      ctaBtn.addEventListener("mousemove", onMouseMove);
+      ctaBtn.addEventListener("mouseleave", onMouseLeave);
+
+      return () => {
+        ctaBtn.removeEventListener("mousemove", onMouseMove);
+        ctaBtn.removeEventListener("mouseleave", onMouseLeave);
+      };
+    }
+  }, []);
 
   return (
     <div ref={containerRef} className="relative bg-background text-foreground w-full overflow-hidden">
-      {/* Custom Cursor follower */}
-      {isDesktop && !prefersReducedMotion && (
-        <div 
-          className={`cursor-dot ${isHoveringInteractive ? "cursor-dot-active" : ""}`}
-          style={{ left: `${mousePosition.x}px`, top: `${mousePosition.y}px` }}
-        />
-      )}
-
-      {/* Vector thread trail */}
-      {isDesktop && !prefersReducedMotion && trail.length > 1 && (
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-40 overflow-visible animate-fade-in">
-          <path
-            d={getTrailPath()}
-            fill="none"
-            stroke="var(--accent)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.65"
-            className="transition-colors duration-200"
-          />
-        </svg>
-      )}
-
-      {/* Shared Absolute SVG scroll-linked ThreadLine */}
-      <ThreadLine 
-        containerRef={containerRef}
-        heroRef={heroRef}
-        servicesRef={servicesRef}
-        processRef={processRef}
-        footerRef={footerRef}
-      />
-
       <Navbar />
 
       {/* Hero Section */}
-      <section 
-        ref={heroRef}
-        className="relative min-h-screen pt-48 pb-32 flex flex-col justify-center items-center z-10"
-      >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 flex flex-col items-center text-center">
-          {/* Eyebrow */}
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="font-mono text-[9px] tracking-widest uppercase text-accent mb-6 block"
-          >
-            SYSTEMS WEAVING DESIGN AND DEVELOPMENT
-          </motion.span>
-
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium tracking-tight leading-[1.05] text-foreground max-w-5xl mb-8"
-          >
-            We weave design, code, &amp; SEO into <span className="italic text-accent">one system.</span>
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-sm sm:text-base text-muted max-w-2xl leading-relaxed mb-14"
-          >
-            ByteLoom is a premium digital agency. We construct custom Next.js web systems, optimize automated backends, and engineer custom Shopify storefronts. Structured for velocity. Crafted for clarity.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-24"
-          >
-            <Link
-              href="/contact?type=strategy"
-              className="px-6 py-3 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent cursor-pointer"
+      <section className="relative min-h-screen pt-44 pb-32 flex flex-col justify-center items-center z-10 max-w-7xl mx-auto px-6 md:px-8">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Text panel */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left">
+            <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-6">
+              SYSTEMS WEAVING DESIGN AND DEVELOPMENT
+            </span>
+            <h1
+              ref={heroTextRef}
+              className="text-4xl sm:text-6xl md:text-7xl font-display font-bold tracking-tight leading-[1.05] text-foreground mb-8"
             >
-              Book a Call
-            </Link>
-            <Link
-              href="/work"
-              className="px-6 py-3 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-accent hover:text-background bg-transparent border border-accent/30 hover:bg-accent hover:border-accent transition-all duration-200 cursor-pointer"
-            >
-              See Our Work
-            </Link>
-          </motion.div>
+              We weave design, code, &amp; SEO into one system.
+            </h1>
+            <p className="text-sm sm:text-base text-muted max-w-xl leading-relaxed mb-12">
+              ByteLoom constructs custom Next.js web systems, structures headless Shopify stores, and automates internal tools. We weave disparate parts into high-performance telemetry pipelines.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+              <Link
+                href="/contact?type=strategy"
+                className="px-6 py-3 rounded-md text-[10px] font-mono tracking-widest uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent text-center"
+              >
+                Book a Call
+              </Link>
+              <Link
+                href="/work"
+                className="px-6 py-3 rounded-md text-[10px] font-mono tracking-widest uppercase font-semibold text-accent hover:text-background bg-transparent border border-accent/30 hover:bg-accent hover:border-accent transition-all duration-200 text-center"
+              >
+                See Our Work
+              </Link>
+            </div>
+          </div>
+
+          {/* Right 3D Loom Scene */}
+          <div className="lg:col-span-5 w-full h-[400px] lg:h-[500px] relative pointer-events-none">
+            <LoomScene mode="idle" />
+          </div>
+
         </div>
       </section>
 
@@ -235,7 +155,7 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-3 block">
               THE FRAGMENTED SYSTEM
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground mb-6">
+            <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
               Most agencies compartmentalize. We unify.
             </h2>
             <p className="text-muted text-xs sm:text-sm leading-relaxed">
@@ -278,16 +198,13 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section 
-        ref={servicesRef}
-        className="py-28 md:py-36 relative z-10 bg-background border-t border-card-border"
-      >
+      <section ref={servicesRef} className="py-28 md:py-36 relative z-10 bg-background border-t border-card-border">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl mb-24">
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-3 block">
               OUR DEPLOYMENT ENGINE
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground mb-6">
+            <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
               Complete architectural services, structured in harmony.
             </h2>
             <p className="text-muted text-xs sm:text-sm leading-relaxed">
@@ -306,7 +223,7 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent block">
               INTERACTIVE LOOM CONSTELLATION
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground">
+            <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-foreground">
               Weave your bespoke system setup
             </h2>
             <p className="text-muted text-xs sm:text-sm leading-relaxed">
@@ -314,57 +231,56 @@ export default function Home() {
             </p>
           </div>
 
-          <WeaveBoard />
+          <WeaveBoard3D />
         </div>
       </section>
 
-      {/* Process Section */}
+      {/* Process Section - GSAP Pinning Horizontal Scroll Scrollytelling */}
       <section 
-        ref={processRef}
-        className="py-28 md:py-36 relative z-10 bg-background border-t border-card-border"
+        ref={processRef} 
+        className="relative z-10 bg-background border-t border-card-border"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
-          <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-3 block">
-            THE METHODOLOGY
-          </span>
-          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground mb-20">
-            Our Woven Process
-          </h2>
-
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-16 max-w-5xl mx-auto text-left">
-            {[
-              { step: "Discovery", desc: "Define structural parameters and targets" },
-              { step: "Strategy", desc: "Map architecture, indexing routes, & flows" },
-              { step: "Design", desc: "Craft interfaces without default templates" },
-              { step: "Build", desc: "Code high-velocity Next.js or Shopify stores" },
-              { step: "Launch", desc: "Deploy with optimized caching structures" },
-              { step: "Grow", desc: "Analyze metrics, SEO position, & workflow yield" }
-            ].map((item, idx) => (
-              <div key={idx} className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <KnotIcon />
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-foreground font-semibold">
-                    0{idx + 1}. {item.step}
-                  </span>
-                </div>
-                <p className="text-[11px] text-muted leading-relaxed pl-6">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
+        <div 
+          ref={processTriggerRef} 
+          className="flex flex-row w-[500vw] h-screen items-center"
+        >
+          {/* Cover/Intro slide */}
+          <div className="w-[100vw] h-screen flex flex-col justify-center px-12 md:px-24">
+            <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-3 block">
+              THE METHODOLOGY
+            </span>
+            <h2 className="text-5xl md:text-7xl font-display font-bold tracking-tight text-foreground mb-6 max-w-xl">
+              Our Woven Process
+            </h2>
+            <p className="text-muted text-sm max-w-lg leading-relaxed">
+              Scroll vertically to unfold the engineering steps we take to weave design, code, and telemetry into one operational product.
+            </p>
           </div>
 
-          <p className="text-muted text-xs mb-12 max-w-xl mx-auto leading-relaxed">
-            Every step is tightly linked. Code is informed by design, and designs are built with performance rules in mind.
-          </p>
-
-          <Link
-            href="/process"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-accent hover:text-background bg-transparent border border-accent/30 hover:bg-accent hover:border-accent transition-all duration-200 cursor-pointer"
-          >
-            See Our Full Process
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          {/* Steps slides */}
+          {[
+            { step: "Discovery", desc: "Define structural parameters and targets. We map boundaries, system integrations, and core targets." },
+            { step: "Strategy", desc: "Map architecture, indexing routes, & flows. Designing a telemetry schema aligned to indexing metrics." },
+            { step: "Design", desc: "Craft interfaces without default templates. Clean, bespoke duotone layouts focused on high usability." },
+            { step: "Build", desc: "Code high-velocity Next.js or Shopify stores. Utilizing React 19 server architectures and Tailwind v4." },
+            { step: "Launch", desc: "Deploy with optimized caching structures. We launch with edge routing and speed metrics optimized." },
+            { step: "Grow", desc: "Analyze metrics, SEO position, & workflow yield. Iterative adjustments driven by telemetry readouts." }
+          ].map((item, idx) => (
+            <div 
+              key={idx} 
+              className="w-[100vw] h-screen flex flex-col justify-center px-12 md:px-24 border-l border-card-border"
+            >
+              <span className="font-mono text-xl text-accent font-semibold mb-2 block">
+                0{idx + 1}.
+              </span>
+              <h3 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
+                {item.step}
+              </h3>
+              <p className="text-muted text-sm max-w-md leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -375,7 +291,7 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent block">
               CLIENT TESTIMONIALS
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground">
+            <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-[#F3F2EE]">
               System reviews from real founders
             </h2>
           </div>
@@ -391,7 +307,7 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent block">
               COMMON INQUIRIES
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-foreground">
+            <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-foreground">
               Technical FAQ
             </h2>
           </div>
@@ -406,7 +322,7 @@ export default function Home() {
         className="py-36 relative z-10 bg-background border-t border-card-border"
       >
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-6xl font-display font-medium tracking-tight text-foreground mb-6">
+          <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
             Let&apos;s weave a high-performance system together.
           </h2>
           <p className="text-muted text-sm leading-relaxed max-w-xl mx-auto mb-12">
@@ -414,14 +330,15 @@ export default function Home() {
           </p>
 
           <Link
+            ref={ctaBtnRef}
             href="/contact?type=strategy"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent cursor-pointer"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-md text-[10px] font-mono tracking-widest uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent cursor-pointer"
           >
             Schedule Strategy Call
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           
-          <p className="text-[9px] font-mono uppercase tracking-wider text-muted mt-6">
+          <p className="text-[9px] font-mono uppercase tracking-widest text-muted mt-6">
             NO SALES DECK &bull; DIRECT CONVERSATION &bull; 30 MIN
           </p>
         </div>

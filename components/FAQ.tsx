@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
 
 interface FAQItemProps {
   question: string;
@@ -10,6 +9,21 @@ interface FAQItemProps {
   isOpen: boolean;
   onToggle: () => void;
 }
+
+const ThreadKnotIcon = ({ isOpen }: { isOpen: boolean }) => (
+  <svg
+    viewBox="0 0 24 24"
+    width="16"
+    height="16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className={`transition-all duration-300 ${isOpen ? "rotate-90 text-teal" : "text-accent"}`}
+  >
+    <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M12 2v20M2 12h20" stroke="currentColor" strokeLinecap="round" />
+  </svg>
+);
 
 function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
   return (
@@ -21,8 +35,8 @@ function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
         <span className="font-sans text-sm md:text-base font-medium text-foreground group-hover:text-accent transition-colors duration-200">
           {question}
         </span>
-        <span className="ml-4 text-accent flex items-center justify-center transition-transform duration-200">
-          {isOpen ? <Minus className="w-4 h-4" strokeWidth={1.5} /> : <Plus className="w-4 h-4" strokeWidth={1.5} />}
+        <span className="ml-4 flex items-center justify-center">
+          <ThreadKnotIcon isOpen={isOpen} />
         </span>
       </button>
       

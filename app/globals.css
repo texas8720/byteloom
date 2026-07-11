@@ -1,73 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-card: var(--card);
-  --color-card-border: var(--card-border);
-  --color-card-border-hover: var(--card-border-hover);
-  --color-muted: var(--muted);
-  --color-teal: #3ED9C4;
+  --color-background: var(--bg-void);
+  --color-foreground: var(--ink-100);
+  --color-accent: var(--thread-violet);
+  --color-accent-hover: #564eff;
+  --color-teal: var(--thread-teal);
+  --color-card: var(--bg-panel);
+  --color-card-border: var(--line);
+  --color-card-border-hover: rgba(108, 99, 255, 0.35);
+  --color-muted: var(--ink-500);
 
-  --font-display: "Cormorant Garamond", serif;
-  --font-sans: "Plus Jakarta Sans", sans-serif;
-  --font-mono: "Plus Jakarta Sans", sans-serif;
-  --font-technical: "JetBrains Mono", monospace;
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-technical: "Geist Mono", monospace;
 }
 
 :root {
-  --background: #FCFCFC;      /* Premium Off-white */
-  --foreground: #09090B;      /* Zinc 950 */
-  --accent: #B45309;          /* Amber 700 Gold */
-  --accent-hover: #92400E;    /* Amber 800 */
-  --card: #F4F4F5;            /* Zinc 100 */
-  --card-border: #E4E4E7;     /* Zinc 200 */
-  --card-border-hover: #D4D4D8;
-  --muted: #52525B;           /* Zinc 600 - High Contrast Muted */
-}
-
-.dark {
-  --background: #09090B;      /* Zinc 950 */
-  --foreground: #F4F4F5;      /* Zinc 100 */
-  --accent: #F59E0B;          /* Amber 500 Gold */
-  --accent-hover: #D97706;    /* Amber 600 */
-  --card: #18181B;            /* Zinc 900 */
-  --card-border: #27272A;     /* Zinc 800 */
-  --card-border-hover: #3F3F46; /* Zinc 700 */
-  --muted: #A1A1AA;           /* Zinc 400 - High Contrast Muted */
+  --bg-void: #090B10;
+  --bg-panel: #10141C;
+  --thread-violet: #6C63FF;
+  --thread-teal: #2FE6D0;
+  --ink-100: #F3F2EE;
+  --ink-500: #868C97;
+  --line: #1D222B;
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  transition: background-color 200ms ease, border-color 200ms ease;
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: var(--background);
-  color: var(--foreground);
-  scroll-behavior: smooth;
+  background-color: var(--bg-void);
+  color: var(--ink-100);
   font-family: var(--font-sans);
-}
-
-/* Typography Helpers */
-.font-display {
-  font-family: var(--font-display);
-}
-
-.font-mono {
-  font-family: var(--font-mono);
-}
-
-.font-technical {
-  font-family: var(--font-technical);
+  background-image: 
+    linear-gradient(to right, rgba(29, 34, 43, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 34, 43, 0.15) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
 /* Scrollbar styles */
@@ -77,16 +54,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: var(--bg-void);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--card);
-  border: 1px solid var(--card-border);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--thread-violet);
 }
 
 /* Keyframe animations for marquee */
@@ -111,7 +88,7 @@ body {
 
 /* Hairline border utilities */
 .hairline-border {
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--line);
 }
 
 .hairline-border-hover {
@@ -119,8 +96,8 @@ body {
 }
 
 .hairline-border-hover:hover {
-  border-color: var(--card-border-hover);
-  background-color: var(--card);
+  border-color: rgba(108, 99, 255, 0.35);
+  background-color: var(--bg-panel);
 }
 
 /* Desktop Custom Cursor follower */
@@ -130,7 +107,7 @@ body {
   left: 0;
   width: 6px;
   height: 6px;
-  background-color: var(--accent);
+  background-color: var(--thread-violet);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
@@ -139,8 +116,30 @@ body {
 }
 
 .cursor-dot-active {
-  width: 20px;
-  height: 20px;
-  background-color: rgba(245, 158, 11, 0.15);
-  border: 1px solid var(--accent);
+  width: 24px;
+  height: 24px;
+  background-color: rgba(108, 99, 255, 0.1);
+  border: 1px solid var(--thread-violet);
+}
+
+/* Lenis smooth scrolling requirement */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis-scrolling iframe {
+  pointer-events: none;
 }

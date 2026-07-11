@@ -1,12 +1,69 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Layers, ArrowRight } from "lucide-react";
+import gsap from "gsap";
+import LoomScene from "./LoomScene";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [timeStr, setTimeStr] = useState("");
+  
+  const footerRef = useRef<HTMLDivElement>(null);
+  const stitchRef = useRef<SVGLineElement>(null);
+
+  useEffect(() => {
+    // Staggered column entry reveal using GSAP ScrollTrigger
+    gsap.fromTo(
+      ".footer-col",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
+        duration: 0.65,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 85%",
+        },
+      }
+    );
+
+    // Stitching top line animation
+    if (stitchRef.current) {
+      gsap.fromTo(
+        stitchRef.current,
+        { strokeDashoffset: 100 },
+        {
+          strokeDashoffset: 0,
+          duration: 1.5,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 90%",
+          },
+        }
+      );
+    }
+
+    // Tick clock once per second for UTC+5.30 telemetry
+    const updateTime = () => {
+      const date = new Date();
+      // Format to HH:MM:SS
+      const formatted = date.toLocaleTimeString("en-US", {
+        hour12: false,
+        timeZone: "Asia/Kolkata",
+      });
+      setTimeStr(formatted);
+    };
+    
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,11 +95,36 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-background border-t border-card-border pt-20 pb-10 relative z-10">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+    <footer 
+      ref={footerRef}
+      className="bg-background border-t border-transparent pt-20 pb-10 relative z-10 overflow-hidden"
+    >
+      {/* 3D Loom Ambient Watermark Background */}
+      <div className="absolute right-[-80px] bottom-[-40px] w-96 h-96 opacity-15 pointer-events-none z-0">
+        <LoomScene mode="ambient" />
+      </div>
+
+      {/* SVG Stitching Divider Line */}
+      <div className="absolute top-0 left-0 right-0 h-4 pointer-events-none">
+        <svg className="w-full h-full" viewBox="0 0 1200 16" preserveAspectRatio="none">
+          <line
+            ref={stitchRef}
+            x1="0"
+            y1="8"
+            x2="1200"
+            y2="8"
+            stroke="var(--thread-violet)"
+            strokeWidth="1.5"
+            strokeDasharray="12 6"
+            strokeDashoffset="100"
+          />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 relative z-10">
         
         {/* Column 1 - Brand */}
-        <div className="flex flex-col gap-6">
+        <div className="footer-col flex flex-col gap-6">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-md bg-card border border-card-border flex items-center justify-center text-accent">
               <Layers className="w-4 h-4" />
@@ -74,8 +156,8 @@ export default function Footer() {
         </div>
 
         {/* Column 2 - Services */}
-        <div>
-          <h3 className="font-mono text-[10px] uppercase tracking-wider text-foreground font-semibold mb-6">Services</h3>
+        <div className="footer-col">
+          <h3 className="font-mono text-[10px] uppercase tracking-widest text-foreground font-semibold mb-6">Services</h3>
           <ul className="flex flex-col gap-3">
             {services.map((item) => (
               <li key={item.name}>
@@ -88,8 +170,8 @@ export default function Footer() {
         </div>
 
         {/* Column 3 - Company */}
-        <div>
-          <h3 className="font-mono text-[10px] uppercase tracking-wider text-foreground font-semibold mb-6">Company</h3>
+        <div className="footer-col">
+          <h3 className="font-mono text-[10px] uppercase tracking-widest text-foreground font-semibold mb-6">Company</h3>
           <ul className="flex flex-col gap-3">
             {company.map((item) => (
               <li key={item.name}>
@@ -102,22 +184,22 @@ export default function Footer() {
         </div>
 
         {/* Column 4 - Get Started */}
-        <div className="flex flex-col gap-6">
+        <div className="footer-col flex flex-col gap-6">
           <div>
-            <h3 className="font-mono text-[10px] uppercase tracking-wider text-foreground font-semibold mb-4">Get Started</h3>
+            <h3 className="font-mono text-[10px] uppercase tracking-widest text-foreground font-semibold mb-4">Get Started</h3>
             <p className="text-xs text-muted mb-1 font-mono">EMAIL: hello@byteloom.com</p>
             <p className="text-xs text-muted font-mono">PHONE: +91 XX XXX XXXXX</p>
           </div>
           
           <Link
             href="/contact?type=strategy"
-            className="px-4 py-2 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent w-fit"
+            className="px-4 py-2 rounded-md text-[10px] font-mono tracking-widest uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent w-fit"
           >
             Book a Call
           </Link>
 
           <div>
-            <h4 className="font-mono text-[9px] uppercase tracking-wider text-foreground font-semibold mb-3">Newsletter</h4>
+            <h4 className="font-mono text-[9px] uppercase tracking-widest text-foreground font-semibold mb-3">Newsletter</h4>
             <form onSubmit={handleSubscribe} className="flex gap-2 max-w-sm">
               <input
                 type="email"
@@ -125,7 +207,7 @@ export default function Footer() {
                 placeholder="you@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-card text-foreground border border-card-border rounded-md px-3 py-1.5 text-xs w-full focus:outline-none focus:border-accent transition-colors duration-200 font-mono animate-none"
+                className="bg-card text-foreground border border-card-border rounded-md px-3 py-1.5 text-xs w-full focus:outline-none focus:border-accent transition-colors duration-200 font-mono"
               />
               <button
                 type="submit"
@@ -143,11 +225,12 @@ export default function Footer() {
 
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 border-t border-card-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-[10px] font-mono text-muted uppercase">
-          &copy; {new Date().getFullYear()} Byteloom Digital. All rights reserved.
+      <div className="max-w-7xl mx-auto px-6 border-t border-card-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
+        {/* Technical always-on clock/build telemetry */}
+        <p className="text-[9px] font-mono text-muted uppercase">
+          BYTELOOM.SYS v2.6 // UTC+05:30 [ {timeStr || "12:00:00"} ]
         </p>
-        <div className="flex gap-6 text-[10px] font-mono uppercase">
+        <div className="flex gap-6 text-[9px] font-mono uppercase">
           <Link href="/privacy" className="text-muted hover:text-accent transition-colors duration-200">
             Privacy Policy
           </Link>
