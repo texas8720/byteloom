@@ -253,7 +253,7 @@ export default function WeaveBoard3D() {
       </div>
 
       {/* Specification Panel */}
-      <div className="lg:col-span-5 flex flex-col justify-between p-2">
+      <div className="lg:col-span-5 flex flex-col justify-between p-6 bg-background border border-card-border rounded-md">
         <div className="space-y-6">
           <div>
             <span className="font-mono text-[9px] tracking-widest text-accent uppercase block mb-1">

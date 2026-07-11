@@ -30,116 +30,132 @@ export default function Home() {
   React.useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Headline character reveal using GSAP
-    if (heroTextRef.current) {
-      const chars = heroTextRef.current.innerText.split("");
-      heroTextRef.current.innerHTML = chars
-        .map((c) => `<span class="hero-char inline-block opacity-0 translate-y-4">${c === " " ? "&nbsp;" : c}</span>`)
-        .join("");
+    // Initialize GSAP context for clean double-mount reversion (StrictMode safe)
+    const ctx = gsap.context(() => {
+      // 1. Headline character reveal (safely splits into words first, preventing mid-word wraps)
+      if (heroTextRef.current) {
+        const text = heroTextRef.current.innerText;
+        const words = text.split(" ");
+        heroTextRef.current.innerHTML = words
+          .map((word) => {
+            const chars = word.split("");
+            const charsHtml = chars
+              .map((c) => `<span class="hero-char inline-block opacity-0 translate-y-4">${c}</span>`)
+              .join("");
+            return `<span class="inline-block whitespace-nowrap">${charsHtml}</span>`;
+          })
+          .join(" ");
 
-      gsap.to(".hero-char", {
-        opacity: 1,
-        y: 0,
-        stagger: 0.02,
-        duration: 0.65,
-        ease: "power3.out",
-        delay: 0.1,
-      });
-    }
+        gsap.to(".hero-char", {
+          opacity: 1,
+          y: 0,
+          stagger: 0.02,
+          duration: 0.65,
+          ease: "power3.out",
+          delay: 0.1,
+          clearProps: "transform",
+        });
+      }
 
-    // Process horizontal-scroll scrollytelling pinning timeline
-    const section = processRef.current;
-    const trigger = processTriggerRef.current;
-    if (section && trigger) {
-      const scrollWidth = trigger.scrollWidth;
-      const windowWidth = window.innerWidth;
-      
-      gsap.to(trigger, {
-        x: () => -(scrollWidth - windowWidth),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          pin: true,
-          scrub: 1.2,
-          start: "top top",
-          end: () => `+=${scrollWidth - windowWidth}`,
-          invalidateOnRefresh: true,
-        },
-      });
-    }
+      // 2. Process Section - standard horizontal-scroll pinning sequence
+      const section = processRef.current;
+      const track = processTriggerRef.current;
+      if (section && track) {
+        gsap.to(track, {
+          x: () => -(track.scrollWidth - window.innerWidth),
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            start: "top top",
+            end: () => `+=${track.scrollWidth - window.innerWidth}`,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
 
-    // Magnetic CTA Button at the bottom
-    const ctaBtn = ctaBtnRef.current;
-    if (ctaBtn) {
-      const xTo = gsap.quickTo(ctaBtn, "x", { duration: 0.35, ease: "power3.out" });
-      const yTo = gsap.quickTo(ctaBtn, "y", { duration: 0.35, ease: "power3.out" });
+      // 3. Magnetic CTA Button at the bottom
+      const ctaBtn = ctaBtnRef.current;
+      if (ctaBtn) {
+        const xTo = gsap.quickTo(ctaBtn, "x", { duration: 0.35, ease: "power3.out" });
+        const yTo = gsap.quickTo(ctaBtn, "y", { duration: 0.35, ease: "power3.out" });
 
-      const onMouseMove = (e: MouseEvent) => {
-        const { left, top, width, height } = ctaBtn.getBoundingClientRect();
-        const x = e.clientX - (left + width / 2);
-        const y = e.clientY - (top + height / 2);
-        xTo(x * 0.4);
-        yTo(y * 0.4);
-      };
+        const onMouseMove = (e: MouseEvent) => {
+          const { left, top, width, height } = ctaBtn.getBoundingClientRect();
+          const x = e.clientX - (left + width / 2);
+          const y = e.clientY - (top + height / 2);
+          xTo(x * 0.4);
+          yTo(y * 0.4);
+        };
 
-      const onMouseLeave = () => {
-        xTo(0);
-        yTo(0);
-      };
+        const onMouseLeave = () => {
+          xTo(0);
+          yTo(0);
+        };
 
-      ctaBtn.addEventListener("mousemove", onMouseMove);
-      ctaBtn.addEventListener("mouseleave", onMouseLeave);
+        ctaBtn.addEventListener("mousemove", onMouseMove);
+        ctaBtn.addEventListener("mouseleave", onMouseLeave);
+      }
+    }, containerRef);
 
-      return () => {
-        ctaBtn.removeEventListener("mousemove", onMouseMove);
-        ctaBtn.removeEventListener("mouseleave", onMouseLeave);
-      };
-    }
+    // Refresh ScrollTrigger calculations
+    ScrollTrigger.refresh();
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
     <div ref={containerRef} className="relative bg-background text-foreground w-full overflow-hidden">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen pt-44 pb-32 flex flex-col justify-center items-center z-10 max-w-7xl mx-auto px-6 md:px-8">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left Text panel */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left">
-            <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-6">
-              SYSTEMS WEAVING DESIGN AND DEVELOPMENT
-            </span>
-            <h1
-              ref={heroTextRef}
-              className="text-4xl sm:text-6xl md:text-7xl font-display font-bold tracking-tight leading-[1.05] text-foreground mb-8"
+      {/* Hero Section - Position relative and overflow-hidden */}
+      <section 
+        ref={heroRef}
+        className="relative min-h-screen pt-44 pb-32 flex flex-col justify-center items-center z-10 overflow-hidden"
+      >
+        {/* Background 3D Loom Canvas - Bounded, absolute behind text with pointer-events-none */}
+        <div className="absolute right-0 bottom-0 w-full lg:w-1/2 h-[500px] lg:h-[90%] pointer-events-none z-0 opacity-40 lg:opacity-60 overflow-hidden">
+          <LoomScene mode="idle" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full z-10 relative flex flex-col items-start text-left">
+          {/* Eyebrow */}
+          <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-6 block">
+            SYSTEMS WEAVING DESIGN AND DEVELOPMENT
+          </span>
+
+          {/* Heading */}
+          <h1
+            ref={heroTextRef}
+            className="text-4xl sm:text-6xl md:text-7xl font-display font-bold tracking-tight leading-[1.05] text-foreground max-w-4xl mb-8"
+          >
+            We weave design, code, &amp; SEO into one system.
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-sm sm:text-base text-muted max-w-xl leading-relaxed mb-12">
+            ByteLoom constructs custom Next.js web systems, structures headless Shopify stores, and automates internal tools. We weave disparate parts into high-performance telemetry pipelines.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+            <Link
+              href="/contact?type=strategy"
+              className="px-6 py-3 rounded-md text-[10px] font-mono tracking-widest uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent text-center cursor-pointer"
             >
-              We weave design, code, &amp; SEO into one system.
-            </h1>
-            <p className="text-sm sm:text-base text-muted max-w-xl leading-relaxed mb-12">
-              ByteLoom constructs custom Next.js web systems, structures headless Shopify stores, and automates internal tools. We weave disparate parts into high-performance telemetry pipelines.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
-              <Link
-                href="/contact?type=strategy"
-                className="px-6 py-3 rounded-md text-[10px] font-mono tracking-widest uppercase font-semibold text-background bg-accent hover:bg-accent-hover transition-colors border border-accent text-center"
-              >
-                Book a Call
-              </Link>
-              <Link
-                href="/work"
-                className="px-6 py-3 rounded-md text-[10px] font-mono tracking-widest uppercase font-semibold text-accent hover:text-background bg-transparent border border-accent/30 hover:bg-accent hover:border-accent transition-all duration-200 text-center"
-              >
-                See Our Work
-              </Link>
-            </div>
+              Book a Call
+            </Link>
+            <Link
+              href="/work"
+              className="px-6 py-3 rounded-md text-[10px] font-mono tracking-widest uppercase font-semibold text-accent hover:text-background bg-transparent border border-accent/30 hover:bg-accent hover:border-accent transition-all duration-200 text-center cursor-pointer"
+            >
+              See Our Work
+            </Link>
           </div>
-
-          {/* Right 3D Loom Scene */}
-          <div className="lg:col-span-5 w-full h-[400px] lg:h-[500px] relative pointer-events-none">
-            <LoomScene mode="idle" />
-          </div>
-
         </div>
       </section>
 
@@ -235,17 +251,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Process Section - GSAP Pinning Horizontal Scroll Scrollytelling */}
+      {/* Process Section - Bounded viewport scrollytelling flex track */}
       <section 
         ref={processRef} 
-        className="relative z-10 bg-background border-t border-card-border"
+        className="relative z-10 bg-background border-t border-card-border h-screen overflow-hidden process-pin-wrapper"
       >
         <div 
           ref={processTriggerRef} 
-          className="flex flex-row w-[500vw] h-screen items-center"
+          className="flex flex-row h-full items-center process-track"
         >
           {/* Cover/Intro slide */}
-          <div className="w-[100vw] h-screen flex flex-col justify-center px-12 md:px-24">
+          <div className="w-screen h-screen flex-shrink-0 flex flex-col justify-center px-12 md:px-24 process-step">
             <span className="font-mono text-[9px] tracking-widest uppercase text-accent mb-3 block">
               THE METHODOLOGY
             </span>
@@ -268,7 +284,7 @@ export default function Home() {
           ].map((item, idx) => (
             <div 
               key={idx} 
-              className="w-[100vw] h-screen flex flex-col justify-center px-12 md:px-24 border-l border-card-border"
+              className="w-screen h-screen flex-shrink-0 flex flex-col justify-center px-12 md:px-24 process-step border-l border-line"
             >
               <span className="font-mono text-xl text-accent font-semibold mb-2 block">
                 0{idx + 1}.
@@ -316,9 +332,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA Section */}
+      {/* Final CTA Section - Real distinct padding, sitting in document flow */}
       <section 
-        ref={footerRef}
         className="py-36 relative z-10 bg-background border-t border-card-border"
       >
         <div className="max-w-4xl mx-auto px-6 text-center">
@@ -344,7 +359,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Footer />
+      <Footer containerRef={footerRef} />
     </div>
   );
 }

@@ -6,12 +6,13 @@ import { Layers, ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import LoomScene from "./LoomScene";
 
-export default function Footer() {
+export default function Footer({ containerRef }: { containerRef?: React.RefObject<HTMLDivElement | null> }) {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const [timeStr, setTimeStr] = useState("");
   
-  const footerRef = useRef<HTMLDivElement>(null);
+  const localRef = useRef<HTMLDivElement>(null);
+  const activeRef = containerRef || localRef;
   const stitchRef = useRef<SVGLineElement>(null);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Footer() {
         duration: 0.65,
         ease: "power2.out",
         scrollTrigger: {
-          trigger: footerRef.current,
+          trigger: activeRef.current,
           start: "top 85%",
         },
       }
@@ -42,7 +43,7 @@ export default function Footer() {
           duration: 1.5,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: footerRef.current,
+            trigger: activeRef.current,
             start: "top 90%",
           },
         }
@@ -96,8 +97,8 @@ export default function Footer() {
 
   return (
     <footer 
-      ref={footerRef}
-      className="bg-background border-t border-transparent pt-20 pb-10 relative z-10 overflow-hidden"
+      ref={activeRef}
+      className="bg-background border-t border-card-border pt-20 pb-10 relative z-10 overflow-hidden"
     >
       {/* 3D Loom Ambient Watermark Background */}
       <div className="absolute right-[-80px] bottom-[-40px] w-96 h-96 opacity-15 pointer-events-none z-0">
