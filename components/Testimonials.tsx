@@ -44,9 +44,9 @@ export default function Testimonials() {
   };
 
   return (
-    <div className="relative overflow-hidden bg-[#12161F] border border-[rgba(237,238,242,0.08)] rounded-md p-8 md:p-12 max-w-4xl mx-auto z-10">
+    <div className="relative overflow-hidden bg-[#0B0E14] border border-[rgba(0,240,255,0.08)] rounded-md p-8 md:p-12 max-w-4xl mx-auto z-10 hover:border-[#00f0ff]/20 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,240,255,0.04)]">
       {/* Editorial Quote Indicator */}
-      <span className="font-display text-[160px] leading-none text-[#D9A441]/5 absolute -top-10 -left-2 select-none pointer-events-none italic font-bold">
+      <span className="font-display text-[160px] leading-none text-[#00f0ff]/5 absolute -top-10 -left-2 select-none pointer-events-none italic font-bold">
         “
       </span>
 
@@ -65,7 +65,7 @@ export default function Testimonials() {
             </p>
 
             <div className="flex items-center gap-4 mt-4">
-              <div className="w-10 h-10 rounded-md bg-[#0B0E14] border border-[rgba(237,238,242,0.08)] flex items-center justify-center font-mono text-xs font-semibold text-[#D9A441]">
+              <div className="w-10 h-10 rounded-md bg-[#06080E] border border-[rgba(0,240,255,0.1)] flex items-center justify-center font-mono text-xs font-semibold text-[#00f0ff] shadow-[0_0_8px_rgba(0,240,255,0.1)]">
                 {testimonials[current].name.split(" ").map(n => n[0]).join("")}
               </div>
               <div>
@@ -82,14 +82,14 @@ export default function Testimonials() {
 
         {/* Controls */}
         <div className="flex items-center justify-between mt-8 border-t border-[rgba(237,238,242,0.08)] pt-6">
-          {/* Dots as small gold lines */}
+          {/* Dots as small cyan lines */}
           <div className="flex gap-1.5 items-center">
             {testimonials.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrent(idx)}
                 className={`h-1 rounded-sm transition-all duration-200 cursor-pointer ${
-                  current === idx ? "bg-[#D9A441] w-5" : "bg-[rgba(237,238,242,0.08)] w-2.5"
+                  current === idx ? "bg-[#00f0ff] w-5 shadow-[0_0_8px_rgba(0,240,255,0.4)]" : "bg-[rgba(237,238,242,0.08)] w-2.5"
                 }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />
@@ -100,14 +100,14 @@ export default function Testimonials() {
           <div className="flex gap-2">
             <button
               onClick={prevSlide}
-              className="w-9 h-9 rounded-md bg-[#0B0E14] border border-[rgba(237,238,242,0.08)] flex items-center justify-center text-zinc-400 hover:text-white hover:border-[#D9A441]/25 hover:bg-[#12161F] transition-all cursor-pointer"
+              className="w-9 h-9 rounded-md bg-[#06080E] border border-[rgba(0,240,255,0.08)] flex items-center justify-center text-zinc-400 hover:text-white hover:border-[#00f0ff]/30 hover:bg-[#12161F] hover:shadow-[0_0_10px_rgba(0,240,255,0.15)] transition-all cursor-pointer"
               aria-label="Previous Testimonial"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={nextSlide}
-              className="w-9 h-9 rounded-md bg-[#0B0E14] border border-[rgba(237,238,242,0.08)] flex items-center justify-center text-zinc-400 hover:text-white hover:border-[#D9A441]/25 hover:bg-[#12161F] transition-all cursor-pointer"
+              className="w-9 h-9 rounded-md bg-[#06080E] border border-[rgba(0,240,255,0.08)] flex items-center justify-center text-zinc-400 hover:text-white hover:border-[#00f0ff]/30 hover:bg-[#12161F] hover:shadow-[0_0_10px_rgba(0,240,255,0.15)] transition-all cursor-pointer"
               aria-label="Next Testimonial"
             >
               <ChevronRight className="w-4 h-4" />

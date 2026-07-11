@@ -18,10 +18,10 @@ function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
         onClick={onToggle}
         className="w-full flex items-center justify-between text-left focus:outline-none group cursor-pointer"
       >
-        <span className="font-mono text-xs uppercase tracking-wider text-white group-hover:text-[#D9A441] transition-colors duration-200">
+        <span className="font-mono text-xs uppercase tracking-wider text-white group-hover:text-[#00f0ff] transition-colors duration-200">
           {question}
         </span>
-        <span className="ml-4 text-[#D9A441] flex items-center justify-center transition-transform duration-200">
+        <span className="ml-4 text-[#00f0ff] flex items-center justify-center transition-transform duration-200">
           {isOpen ? <Minus className="w-4 h-4" strokeWidth={1.5} /> : <Plus className="w-4 h-4" strokeWidth={1.5} />}
         </span>
       </button>

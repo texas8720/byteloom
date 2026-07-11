@@ -166,11 +166,22 @@ export default function ThreadLine({
         strokeLinejoin="round"
         opacity="0.9"
       />
-      {/* Active gold thread path */}
+      {/* Glowing background cyber trace path */}
       <motion.path
         d={path}
         fill="none"
-        stroke="#D9A441"
+        stroke="#00f0ff"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.25"
+        style={{ pathLength }}
+      />
+      {/* Active cyber cyan thread path */}
+      <motion.path
+        d={path}
+        fill="none"
+        stroke="#00f0ff"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -31,10 +31,10 @@ function BentoCard({ icon, title, description, href, className = "", delay }: Be
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.4, delay }}
       whileHover={{ y: -3 }}
-      className={`group relative overflow-hidden bg-[#12161F] border border-[rgba(237,238,242,0.08)] rounded-md p-8 flex flex-col justify-between hover:bg-[#171C27] hover:border-[#D9A441]/25 transition-all duration-200 ${className}`}
+      className={`group relative overflow-hidden bg-[#0B0E14] border border-[rgba(0,240,255,0.08)] rounded-md p-8 flex flex-col justify-between hover:bg-[#12161F] hover:border-[#00f0ff]/30 hover:shadow-[0_0_20px_rgba(0,240,255,0.06)] transition-all duration-200 ${className}`}
     >
       <div>
-        <div className="w-10 h-10 rounded-md bg-[#0B0E14] border border-[rgba(237,238,242,0.08)] flex items-center justify-center text-[#D9A441] group-hover:scale-105 transition-transform duration-200 mb-6">
+        <div className="w-10 h-10 rounded-md bg-[#06080E] border border-[rgba(0,240,255,0.08)] flex items-center justify-center text-[#00f0ff] group-hover:scale-105 transition-transform duration-200 mb-6 shadow-[0_0_8px_rgba(0,240,255,0.1)]">
           {icon}
         </div>
         <h3 className="text-lg font-display font-semibold text-white mb-2">
@@ -47,7 +47,7 @@ function BentoCard({ icon, title, description, href, className = "", delay }: Be
 
       <Link
         href={href}
-        className="font-mono uppercase tracking-wider text-[9px] text-[#8891A3] group-hover:text-[#D9A441] transition-colors flex items-center gap-1"
+        className="font-mono uppercase tracking-wider text-[9px] text-[#8891A3] group-hover:text-[#00f0ff] transition-colors flex items-center gap-1"
       >
         Learn More <span className="group-hover:translate-x-0.5 transition-transform duration-150">→</span>
       </Link>

@@ -44,7 +44,7 @@ export default function Footer() {
         {/* Column 1 - Brand */}
         <div className="flex flex-col gap-6">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-md bg-[#12161F] border border-[rgba(237,238,242,0.08)] flex items-center justify-center text-[#D9A441]">
+            <div className="w-8 h-8 rounded-md bg-[#12161F] border border-[rgba(0,240,255,0.15)] flex items-center justify-center text-[#00f0ff] shadow-[0_0_10px_rgba(0,240,255,0.15)]">
               <Layers className="w-4 h-4" />
             </div>
             <span className="font-semibold text-lg tracking-tight font-display text-white">Byteloom</span>
@@ -79,7 +79,7 @@ export default function Footer() {
           <ul className="flex flex-col gap-3">
             {services.map((item) => (
               <li key={item.name}>
-                <Link href={item.href} className="text-xs text-[#8891A3] hover:text-[#D9A441] transition-colors duration-200">
+                <Link href={item.href} className="text-xs text-[#8891A3] hover:text-[#00f0ff] transition-colors duration-200">
                   {item.name}
                 </Link>
               </li>
@@ -93,7 +93,7 @@ export default function Footer() {
           <ul className="flex flex-col gap-3">
             {company.map((item) => (
               <li key={item.name}>
-                <Link href={item.href} className="text-xs text-[#8891A3] hover:text-[#D9A441] transition-colors duration-200">
+                <Link href={item.href} className="text-xs text-[#8891A3] hover:text-[#00f0ff] transition-colors duration-200">
                   {item.name}
                 </Link>
               </li>
@@ -111,7 +111,7 @@ export default function Footer() {
           
           <Link
             href="/contact?type=strategy"
-            className="px-4 py-2 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-[#0B0E14] bg-[#D9A441] hover:bg-[#C59130] transition-colors border border-[#D9A441] w-fit"
+            className="px-4 py-2 rounded-md text-[10px] font-mono tracking-wider uppercase font-semibold text-[#06080E] bg-[#00f0ff] hover:bg-[#00d8e6] transition-colors border border-[#00f0ff] w-fit shadow-[0_0_10px_rgba(0,240,255,0.15)]"
           >
             Book a Call
           </Link>
@@ -125,11 +125,11 @@ export default function Footer() {
                 placeholder="you@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-[#12161F] text-white border border-[rgba(237,238,242,0.08)] rounded-md px-3 py-1.5 text-xs w-full focus:outline-none focus:border-[#D9A441] transition-colors duration-200 font-mono"
+                className="bg-[#12161F] text-white border border-[rgba(237,238,242,0.08)] rounded-md px-3 py-1.5 text-xs w-full focus:outline-none focus:border-[#00f0ff] transition-colors duration-200 font-mono"
               />
               <button
                 type="submit"
-                className="bg-[#D9A441] hover:bg-[#C59130] text-[#0B0E14] rounded-md px-3 flex items-center justify-center transition-colors cursor-pointer"
+                className="bg-[#00f0ff] hover:bg-[#00d8e6] text-[#06080E] rounded-md px-3 flex items-center justify-center transition-colors cursor-pointer shadow-[0_0_10px_rgba(0,240,255,0.15)]"
                 aria-label="Subscribe"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -148,10 +148,10 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} Byteloom Digital. All rights reserved.
         </p>
         <div className="flex gap-6 text-[10px] font-mono uppercase">
-          <Link href="/privacy" className="text-[#8891A3] hover:text-[#D9A441] transition-colors duration-200">
+          <Link href="/privacy" className="text-[#8891A3] hover:text-[#00f0ff] transition-colors duration-200">
             Privacy Policy
           </Link>
-          <Link href="/terms" className="text-[#8891A3] hover:text-[#D9A441] transition-colors duration-200">
+          <Link href="/terms" className="text-[#8891A3] hover:text-[#00f0ff] transition-colors duration-200">
             Terms of Service
           </Link>
         </div>

@@ -34,7 +34,7 @@ export default function LogoMarquee() {
               key={idx}
               className="flex items-center gap-2 text-lg font-mono font-bold text-[#8891A3]/30 hover:text-white transition-colors duration-300 cursor-default"
             >
-              <span className="text-[#D9A441] text-xl">{logo.symbol}</span>
+              <span className="text-[#00f0ff] text-xl shadow-[0_0_8px_rgba(0,240,255,0.2)]">{logo.symbol}</span>
               <span className="tracking-tight uppercase">{logo.name}</span>
             </div>
           ))}

@@ -6,9 +6,9 @@
 
 ---
 
-**Project:** ByteLoom Digital
-**Generated:** 2026-07-11 01:25:32
-**Category:** Digital Products/Downloads
+**Project:** Byteloom Digital
+**Generated:** 2026-07-11 17:41:22
+**Category:** Creative Agency
 
 ---
 
@@ -28,14 +28,14 @@
 
 ### Typography
 
-- **Heading Font:** Orbitron
-- **Body Font:** Exo 2
-- **Mood:** crypto, web3, futuristic, tech, blockchain, digital
-- **Google Fonts:** [Orbitron + Exo 2](https://fonts.google.com/share?selection.family=Exo+2:wght@300;400;500;600;700|Orbitron:wght@400;500;600;700)
+- **Heading Font:** Cinzel
+- **Body Font:** Josefin Sans
+- **Mood:** real estate, luxury, elegant, sophisticated, property, premium
+- **Google Fonts:** [Cinzel + Josefin Sans](https://fonts.google.com/share?selection.family=Cinzel:wght@400;500;600;700|Josefin+Sans:wght@300;400;500;600;700)
 
 **CSS Import:**
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
 ```
 
 ### Spacing Variables
@@ -153,27 +153,28 @@
 
 ## Style Guidelines
 
-**Style:** Vibrant & Block-based
+**Style:** Motion-Driven
 
-**Keywords:** Bold, energetic, playful, block layout, geometric shapes, high color contrast, duotone, modern, energetic
+**Keywords:** Animation-heavy, microinteractions, smooth transitions, scroll effects, parallax, entrance anim, page transitions
 
-**Best For:** Startups, creative agencies, gaming, social media, youth-focused, entertainment, consumer
+**Best For:** Portfolio sites, storytelling platforms, interactive experiences, entertainment apps, creative, SaaS
 
-**Key Effects:** Large sections (48px+ gaps), animated patterns, bold hover (color shift), scroll-snap, large type (32px+), 200-300ms
+**Key Effects:** Scroll anim (Intersection Observer), hover (300-400ms), entrance, parallax (3-5 layers), page transitions
 
 ### Page Pattern
 
-**Pattern Name:** Feature-Rich + Conversion
+**Pattern Name:** Marketplace / Directory
 
-- **CTA Placement:** Above fold
-- **Section Order:** Hero > Features > CTA
+- **Conversion Strategy:**  map hover pins,  card carousel, Search bar is the CTA. Reduce friction to search. Popular searches suggestions.
+- **CTA Placement:** Hero Search Bar + Navbar 'List your item'
+- **Section Order:** 1. Hero (Search focused), 2. Categories, 3. Featured Listings, 4. Trust/Safety, 5. CTA (Become a host/seller)
 
 ---
 
 ## Anti-Patterns (Do NOT Use)
 
-- ❌ No preview
-- ❌ Slow delivery
+- ❌ Corporate minimalism
+- ❌ Hidden portfolio
 
 ### Additional Forbidden Patterns
 

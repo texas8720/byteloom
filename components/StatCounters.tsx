@@ -47,7 +47,7 @@ function Counter({ value, suffix, decimals = 0, label }: StatItemProps) {
     <div ref={ref} className="text-center">
       <div className="font-mono text-3xl md:text-4xl font-bold text-white mb-2">
         {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}
-        <span className="text-[#D9A441]">{suffix}</span>
+        <span className="text-[#00f0ff]">{suffix}</span>
       </div>
       <div className="font-mono text-[9px] tracking-widest uppercase text-[#8891A3]">
         {label}
